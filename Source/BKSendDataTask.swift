@@ -24,51 +24,46 @@
 
 import Foundation
 
-internal func == (lhs: BKSendDataTask, rhs: BKSendDataTask) -> Bool {
-    return lhs.destination == rhs.destination && lhs.data == rhs.data
+internal func ==(lhs: BKSendDataTask, rhs: BKSendDataTask) -> Bool {
+    return lhs.destination == rhs.destination && lhs.data.isEqualToData(rhs.data)
 }
 
 internal class BKSendDataTask: Equatable {
-
+    
     // MARK: Properties
-
-    internal let data: Data
+    
+    internal let data: NSData
     internal let destination: BKRemotePeer
     internal let completionHandler: BKSendDataCompletionHandler?
     internal var offset = 0
-
+    
     internal var maximumPayloadLength: Int {
         return destination.maximumUpdateValueLength
     }
-
+    
     internal var lengthOfRemainingData: Int {
-        return data.count - offset
+        return data.length - offset
     }
-
+    
     internal var sentAllData: Bool {
         return lengthOfRemainingData == 0
     }
-
-    internal var rangeForNextPayload: Range<Int>? {
+    
+    internal var rangeForNextPayload: NSRange {
         let lenghtOfNextPayload = maximumPayloadLength <= lengthOfRemainingData ? maximumPayloadLength : lengthOfRemainingData
-        let payLoadRange = NSRange(location: offset, length: lenghtOfNextPayload)
-        return payLoadRange.toRange()
+        return NSMakeRange(offset, lenghtOfNextPayload)
     }
-
-    internal var nextPayload: Data? {
-        if let range = rangeForNextPayload {
-             return data.subdata(in: range)
-        } else {
-            return nil
-        }
+    
+    internal var nextPayload: NSData {
+        return data.subdataWithRange(rangeForNextPayload)
     }
-
+    
     // MARK: Initialization
-
-    internal init(data: Data, destination: BKRemotePeer, completionHandler: BKSendDataCompletionHandler?) {
+    
+    internal init(data: NSData, destination: BKRemotePeer, completionHandler: BKSendDataCompletionHandler?) {
         self.data = data
         self.destination = destination
         self.completionHandler = completionHandler
     }
-
+    
 }
