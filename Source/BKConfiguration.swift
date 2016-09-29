@@ -60,30 +60,17 @@ public class BKConfiguration {
     
     public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicUUID: NSUUID) {
         self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = CBUUID(NSUUID: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
+        self.dataServiceCharacteristicUUID = CBUUID(nsuuid: dataServiceCharacteristicUUID as UUID)
+        endOfDataMark = "EOD".data(using: String.Encoding.utf8)!
+        dataCancelledMark = "COD".data(using: String.Encoding.utf8)!
     }
     
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicUUID: NSUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = CBUUID(NSUUID: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
 
     public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
         self.dataServiceUUID = dataServiceCBUUID
         self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
+        endOfDataMark = "EOD".data(using: String.Encoding.utf8)!
+        dataCancelledMark = "COD".data(using: String.Encoding.utf8)!
     }
 
     // MARK Functions
