@@ -65,20 +65,6 @@ public class BKConfiguration {
         dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
     }
     
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicUUID: NSUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = CBUUID(NSUUID: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
     public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
         self.dataServiceUUID = dataServiceCBUUID
         self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
