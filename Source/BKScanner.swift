@@ -29,11 +29,11 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
 
     // MARK: Type Aliases
 
-    internal typealias ScanCompletionHandler = ((_ result: [BKDiscovery]?, _ error: BKError?) -> Void)
+    internal typealias ScanCompletionHandler = ((result: [BKDiscovery]?, error: Error?) -> Void)
 
     // MARK: Enums
 
-    internal enum BKError: Error {
+    internal enum Error: ErrorProtocol {
         case noCentralManagerSet
         case busy
         case interrupted
@@ -44,17 +44,17 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
     internal var configuration: BKConfiguration!
     internal var centralManager: CBCentralManager!
     private var busy = false
-    private var scanHandlers: (progressHandler: BKCentral.ScanProgressHandler?, completionHandler: ScanCompletionHandler )?
+    private var scanHandlers: ( progressHandler: BKCentral.ScanProgressHandler?, completionHandler: ScanCompletionHandler )?
     private var discoveries = [BKDiscovery]()
     private var durationTimer: Timer?
 
     // MARK: Internal Functions
 
-    internal func scanWithDuration(_ duration: TimeInterval, progressHandler: BKCentral.ScanProgressHandler? = nil, completionHandler: @escaping ScanCompletionHandler) throws {
+    internal func scanWithDuration(_ duration: TimeInterval, progressHandler: BKCentral.ScanProgressHandler? = nil, completionHandler: ScanCompletionHandler) throws {
         do {
             try validateForActivity()
             busy = true
-            scanHandlers = ( progressHandler: progressHandler, completionHandler: completionHandler)
+            scanHandlers = (progressHandler: progressHandler, completionHandler: completionHandler)
             centralManager.scanForPeripherals(withServices: configuration.serviceUUIDs, options: nil)
             durationTimer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(BKScanner.durationTimerElapsed), userInfo: nil, repeats: false)
         } catch let error {
@@ -73,10 +73,10 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
 
     private func validateForActivity() throws {
         guard !busy else {
-            throw BKError.busy
+            throw Error.busy
         }
         guard centralManager != nil else {
-            throw BKError.noCentralManagerSet
+            throw Error.noCentralManagerSet
         }
     }
 
@@ -84,7 +84,7 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
         endScan(nil)
     }
 
-    private func endScan(_ error: BKError?) {
+    private func endScan(_ error: Error?) {
         invalidateTimer()
         centralManager.stopScan()
         let completionHandler = scanHandlers?.completionHandler
@@ -92,7 +92,7 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
         scanHandlers = nil
         self.discoveries.removeAll()
         busy = false
-        completionHandler?(discoveries, error)
+        completionHandler?(result: discoveries, error: error)
     }
 
     private func invalidateTimer() {
@@ -114,7 +114,7 @@ internal class BKScanner: BKCBCentralManagerDiscoveryDelegate {
         let discovery = BKDiscovery(advertisementData: advertisementData, remotePeripheral: remotePeripheral, RSSI: RSSI)
         if !discoveries.contains(discovery) {
             discoveries.append(discovery)
-            scanHandlers?.progressHandler?([ discovery ])
+            scanHandlers?.progressHandler?(newDiscoveries: [ discovery ])
         }
     }
 
