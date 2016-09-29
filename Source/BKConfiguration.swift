@@ -51,37 +51,9 @@ public class BKConfiguration {
     
     // MARK: Initialization
 
-    public init(dataServiceUUID: UUID, dataServiceCharacteristicUUID: UUID) {
-        self.dataServiceUUID = CBUUID(nsuuid: dataServiceUUID)
-        self.dataServiceCharacteristicUUID = CBUUID(nsuuid: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".data(using: String.Encoding.utf8)!
-        dataCancelledMark = "COD".data(using: String.Encoding.utf8)!
-    }
-    
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicUUID: NSUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
+    public init(dataServiceUUID: NSUUID, dataServiceCharacteristicUUID: NSUUID) {
+        self.dataServiceUUID = CBUUID(NSUUID: dataServiceUUID)
         self.dataServiceCharacteristicUUID = CBUUID(NSUUID: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-    
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicUUID: NSUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = CBUUID(NSUUID: dataServiceCharacteristicUUID)
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
-        endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
-        dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
-    public init(dataServiceCBUUID: CBUUID, dataServiceCharacteristicCBUUID: CBUUID) {
-        self.dataServiceUUID = dataServiceCBUUID
-        self.dataServiceCharacteristicUUID = dataServiceCharacteristicCBUUID
         endOfDataMark = "EOD".dataUsingEncoding(NSUTF8StringEncoding)!
         dataCancelledMark = "COD".dataUsingEncoding(NSUTF8StringEncoding)!
     }
