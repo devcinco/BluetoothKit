@@ -85,6 +85,7 @@ public enum BKUnavailabilityCause: NilLiteralConvertible {
         self = .any
     }
 
+    @available(iOS 10.0, *)
     internal init(centralManagerState: CBManagerState) {
         switch centralManagerState {
             case .poweredOff: self = .poweredOff
@@ -95,6 +96,7 @@ public enum BKUnavailabilityCause: NilLiteralConvertible {
         }
     }
 
+    @available(iOS 10.0, *)
     internal init(peripheralManagerState: CBManagerState) {
         switch peripheralManagerState {
             case .poweredOff: self = .poweredOff

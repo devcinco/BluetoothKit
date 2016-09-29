@@ -28,6 +28,7 @@ import CoreBluetooth
 /**
     The peripheral's delegate is called when asynchronous events occur.
 */
+@available(iOS 10.0, *)
 public protocol BKPeripheralDelegate: class {
     /**
         Called when a remote central connects and is ready to receive data.
@@ -47,6 +48,7 @@ public protocol BKPeripheralDelegate: class {
     The class used to take the Bluetooth LE peripheral role. Peripherals can be discovered and connected to by centrals.
     One a central has connected, the peripheral can send data to it.
 */
+@available(iOS 10.0, *)
 public class BKPeripheral: BKPeer, BKCBPeripheralManagerDelegate, BKAvailabilityObservable {
 
     // MARK: Properies
